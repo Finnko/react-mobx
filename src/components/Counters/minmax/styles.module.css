@@ -1,0 +1,9 @@
+.input {
+    font: inherit;
+    width: 100px;
+    border: 1px solid #cecece;
+    appearance: none;
+    margin: 0 20px;
+    padding: 5px 15px;
+    text-align: center;
+}
