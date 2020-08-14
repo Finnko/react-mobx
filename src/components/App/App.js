@@ -25,20 +25,9 @@ export default class extends Component {
     moveToOrder = () => this.setPage('order');
     moveToResult = () => this.setPage('result');
 
-    changeProductCnt = (id, cnt) => {
-        const idx = this.state.products.findIndex(item => item.id === id);
-        const products = [...this.state.products];
-        products[idx] = {...products[idx], cnt};
-        this.setState({ products });
-    }
-
-    removeProduct = (id) => this.setState({
-        products: this.state.products.filter(item => item.id !== id)
-    });
-
     render() {
         let pageComponent;
-        const {page, settings, products, userData} = this.state;
+        const {page, settings, products} = this.state;
 
         switch (page) {
             case 'cart':

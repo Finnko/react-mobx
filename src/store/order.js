@@ -35,7 +35,7 @@ class Order {
         field.valid = field.validate(value);
     }
 
-    getValue(name) {
+    getValue (name) {
         return this.userData[name].value;
     }
 }

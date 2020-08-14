@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Table from 'react-bootstrap/Table';
 import CartItem from '../CartItem';
+import storesContext from '../../contexts/stores';
+import { observer } from 'mobx-react';
 
-export default function({ products, onChange, onRemove, onConfirm }){
-	const cartCnt = products.length;
-	const cartTotal = products.reduce((acc, cur) => acc + cur.price * cur.cnt, 0);
+const Cart = ({ onConfirm }) => {
+	const { cartStore } = useContext(storesContext);
+	const {
+		productsData,
+		productsCount,
+		cartTotal,
+		changeProductCnt,
+		removeProduct,
+	} = cartStore;
 
-	const productsItems = products.map((product) => {
+	const productsItems = productsData.map((product) => {
 		return <CartItem key={product.id}
 			{...product}
-			onChange={onChange}
-			onRemove={onRemove}
+			onChange={changeProductCnt}
+			onRemove={removeProduct}
 		/>
 	});
 
@@ -35,7 +43,7 @@ export default function({ products, onChange, onRemove, onConfirm }){
 				</tbody>
 			</Table>
 			<hr/>
-			<div><strong>InCart: { cartCnt }</strong></div>
+			<div><strong>InCart: { productsCount }</strong></div>
 			<div><strong>Total: { cartTotal }</strong></div>
 			<div>
 				<button
@@ -49,3 +57,6 @@ export default function({ products, onChange, onRemove, onConfirm }){
 		</div>
 	);
 }
+
+export default observer(Cart);
+

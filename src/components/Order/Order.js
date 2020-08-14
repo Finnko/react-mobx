@@ -4,7 +4,7 @@ import storesContext from '../../contexts/stores';
 import { observer } from 'mobx-react';
 
 const Order = ({ onCancel, onConfirm }) => {
-    const { order: orderStore } = useContext(storesContext);
+    const { orderStore } = useContext(storesContext);
     const { userData, checkValidity: isFormValid, changeValue } = orderStore;
 
     const renderFields = () => {

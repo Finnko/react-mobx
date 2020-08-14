@@ -7,10 +7,11 @@ import storesContext from './contexts/stores';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import orderStore from './store/order';
+import cartStore from './store/cart';
 
 let stores = {
-	order: orderStore
-	// hw cart: cartStore
+	orderStore,
+	cartStore,
 }
 
 ReactDOM.render(
