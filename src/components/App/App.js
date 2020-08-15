@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
 import { routes, routesMap } from '@/router';
 import { Container, Row, Col } from 'react-bootstrap';
 import userSettingContext from '@/contexts/userSettings';
@@ -34,10 +34,16 @@ export default class extends Component {
                               <Col xs={3}>
                                   <ul className="list-group">
                                       <li className="list-group-item">
-                                          <Link to={routesMap.products}>Products</Link>
+                                          <NavLink activeClassName={styles.selected} to={routesMap.products}>Products</NavLink>
                                       </li>
                                       <li className="list-group-item">
-                                          <Link to={routesMap.cart}>Cart</Link>
+                                          <NavLink activeClassName={styles.selected} to={routesMap.cart}>Cart</NavLink>
+                                      </li>
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.order}>Order</NavLink>
+                                      </li>
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.result}>Result</NavLink>
                                       </li>
                                   </ul>
                               </Col>

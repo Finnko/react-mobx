@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
-import { Card, Row, Col } from 'react-bootstrap';
+import {Card, Row, Col, Button} from 'react-bootstrap';
+import styles from './styles.module.css';
 
 const Products = () => {
-    const { productsStore } = useContext(storesContext);
+    const { productsStore, cartStore } = useContext(storesContext);
     const { items } = productsStore;
+    const { addToCart, removeFromCart} = cartStore;
 
     const productsCards = items.map((item) => {
         return (
@@ -22,11 +24,31 @@ const Products = () => {
                           <strong>Price: {item.price}</strong>
                       </Card.Text>
 
-                      <Link to={'/product/' + item.id}>
-                          Get more...
+                      <Link
+                        to={'/product/' + item.id}
+                        className={styles.details}
+                      >
+                          Details
                       </Link>
                       <hr/>
-                      hw btn
+                      <div>
+                          <Button
+                            type="button"
+                            variant="warning"
+                            className="mr-3"
+                            onClick={() => removeFromCart(item.id)}
+                          >
+                              Remove
+                          </Button>
+
+                          <Button
+                            type="button"
+                            variant="success"
+                            onClick={() => addToCart(item.id)}
+                          >
+                              Add
+                          </Button>
+                      </div>
                   </Card.Body>
               </Card>
           </Col>

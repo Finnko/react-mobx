@@ -1,0 +1,10 @@
+.details {
+    color: currentColor;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.details:hover {
+    color: #ff7500;
+    text-decoration: none;
+}

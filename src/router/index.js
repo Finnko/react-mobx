@@ -2,6 +2,7 @@ import ProductsList from '@/components/Products';
 import Cart from '@/components/Cart';
 import Order from '@/components/Order';
 import Result from '@/components/Result';
+import ProductsItem from '@/components/ProductsItem';
 import Page404 from '@/components/Page404';
 
 const routes = [
@@ -9,12 +10,13 @@ const routes = [
         name: 'products',
         path: '/',
         component: ProductsList,
+        exact: true,
     },
-    /* {
+     {
         name: 'products/:id',
-        path: '/',
+        path: 'products/:id',
         component: ProductsItem
-    }, */
+    },
     {
         name: 'cart',
         path: '/cart',

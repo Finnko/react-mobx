@@ -6,8 +6,8 @@ const Page404 = () =>{
     return <div>
         <h1>Page not found</h1>
         <div className="alert alert-warning">
-            Go to
-            <Link to={routesMap.cart}>
+            Go to&nbsp;
+            <Link to={routesMap.products}>
                 home
             </Link>
         </div>

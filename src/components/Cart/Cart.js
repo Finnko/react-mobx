@@ -48,8 +48,8 @@ const Cart = ({ onConfirm }) => {
 				</tbody>
 			</Table>
 			<hr/>
-			<div><strong>InCart: { productsCount }</strong></div>
-			<div><strong>Total: { cartTotal }</strong></div>
+			<div className="mb-2"><strong>InCart: { productsCount }</strong></div>
+			<div className="mb-2"><strong>Total: { cartTotal }</strong></div>
 			<div>
 				<button
 					className="btn btn-success"

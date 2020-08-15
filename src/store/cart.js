@@ -2,13 +2,11 @@ import {observable, computed, action} from 'mobx';
 import productsStore from './products';
 
 class Cart {
-    @observable productsData = [
-      {id: 1, cnt: 2},
-      ];
+    @observable productsData = [];
 
-    @computed get productsDetailed(){
+    @computed get productsDetailed() {
         return this.productsData.map(product => {
-            let productInfo = productsStore.findItem(product.id);
+            const productInfo = productsStore.findItem(product.id);
             return { ...productInfo, cnt: product.cnt };
         });
     }
@@ -19,6 +17,29 @@ class Cart {
 
     @computed get productsCount() {
         return this.productsData.length;
+    }
+
+    @action addToCart = (id) => {
+        const idx = this._findIndexById(id);
+
+        if (idx !== -1) {
+            if (this.productsData[idx].cnt === this.productsData[idx].rest) return;
+
+            this.productsData[idx].cnt++;
+        } else {
+            const newProduct = productsStore.findItem(id);
+            this.productsData.push(newProduct);
+        }
+    }
+
+    @action removeFromCart = (id) => {
+        const idx = this._findIndexById(id);
+
+        if (idx !== -1) {
+            if (this.productsData[idx].cnt === 0) return;
+
+            this.productsData[idx].cnt--;
+        }
     }
 
     @action changeProductCnt = (id, cnt) => {
