@@ -1,0 +1,54 @@
+.header {
+    padding: 20px 0;
+}
+
+.cart {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+    transition: color 0.2s;
+    color: currentColor;
+    text-decoration: none;
+}
+
+.cart::after {
+    position: absolute;
+    left: 18px;
+    top: -8px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: attr(data-value);
+    font-size: 12px;
+    border: 1px solid rgba(206, 206, 206, 0.5);
+    border-radius: 50%;
+    background-color: #fff;
+    color: #ff7500;
+}
+
+.cart:hover {
+    color: #ff7500;
+    text-decoration: none;
+}
+
+.cartIcon {
+    color: #ff7500;
+}
+
+.cartIcon + .cartText {
+    margin-left: 10px;
+}
+
+.totalValue {
+    font-weight: bold;
+    color: #ff7500;
+}
+
+.totalText {
+    font-weight: bold;
+    margin-right: 10px;
+}

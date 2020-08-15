@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { routes, routesMap } from '@/router';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import userSettingContext from '@/contexts/userSettings';
 import styles from './styles.module.css';
+import Header from '@/components/Header';
 
 export default class extends Component {
     state = {
@@ -13,7 +14,7 @@ export default class extends Component {
         },
     }
 
-    setSetting = (key, value) => this.setState({
+    handleSetSettings = (key, value) => this.setState({
         settings: {
             ...this.state.settings,
             [key]: value
@@ -26,27 +27,7 @@ export default class extends Component {
         return (
           <userSettingContext.Provider value={settings}>
               <BrowserRouter>
-                  <header className={styles.header}>
-                      <Container>
-                          <Button
-                            type="button"
-                            variant="info"
-                            className="mr-3"
-                            onClick={() => this.setSetting('lang', 'ru')}
-                          >
-                              ru
-                          </Button>
-
-                          <Button
-                            type="button"
-                            variant="info"
-                            onClick={() => this.setSetting('lang', 'en')}
-                          >
-                              en
-                          </Button>
-                          <hr/>
-                      </Container>
-                  </header>
+                  <Header onSetSettings={this.handleSetSettings} />
                   <main className={styles.main}>
                       <Container>
                           <Row>
