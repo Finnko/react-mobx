@@ -1,11 +1,20 @@
 import {observable, computed, action} from 'mobx';
-import getProducts from '@/util/productsData';
+import productsStore from './products';
 
 class Cart {
-    @observable productsData = getProducts();
+    @observable productsData = [
+      {id: 1, cnt: 2},
+      ];
+
+    @computed get productsDetailed(){
+        return this.productsData.map(product => {
+            let productInfo = productsStore.findItem(product.id);
+            return { ...productInfo, cnt: product.cnt };
+        });
+    }
 
     @computed get cartTotal() {
-        return this.productsData.reduce((acc, cur) => acc + cur.price * cur.cnt, 0);
+        return this.productsDetailed.reduce((acc, cur) => acc + cur.price * cur.cnt, 0);
     }
 
     @computed get productsCount() {

@@ -21,17 +21,17 @@ const CartItem = ({
 			<td className={styles.cell}>{ price }</td>
 			<td className={styles.cell}>
 				<CounterReal
-				max={rest}
-				current={cnt}
-				onChange={handleInputChange}
+					max={rest}
+					current={cnt}
+					onChange={handleInputChange}
 				/>
 			</td>
 			<td className={styles.cell}>{ price * cnt }</td>
 			<td className={styles.cell}>
 				<Button
-				type="button"
-				variant="danger"
-				onClick={handleButtonRemove}
+					type="button"
+					variant="danger"
+					onClick={handleButtonRemove}
 				>
 					Remove
 				</Button>
