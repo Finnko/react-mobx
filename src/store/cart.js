@@ -1,5 +1,5 @@
 import {observable, computed, action} from 'mobx';
-import getProducts from '../util/productsData';
+import getProducts from '@/util/productsData';
 
 class Cart {
     @observable productsData = getProducts();

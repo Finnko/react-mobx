@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import CounterReal from '../Counters/minmax';
+import CounterReal from '@/components/Counters/minmax';
 import Button from 'react-bootstrap/Button';
 import styles from './styles.module.css';
 

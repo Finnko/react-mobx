@@ -52,6 +52,18 @@ let conf = {
 				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			}
 		]
+	},
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src')
+		}
+	},
+	devServer: {
+		historyApiFallback: true,
+		overlay: true,
+		hot: true,
+		open: true,
+		port: 1337,
 	}
 }
 

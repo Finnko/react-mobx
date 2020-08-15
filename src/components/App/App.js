@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import Cart from '../../components/Cart';
-import Order from '../../components/Order';
-import Result from '../../components/Result';
+import Cart from '@/components/Cart';
+import Order from '@/components/Order';
+import Result from '@/components/Result';
 import styles from './styles.module.css';
 
-import getProducts from '../../util/productsData';
-import userSettingContext from '../../contexts/userSettings';
+import getProducts from '@/util/productsData';
+import userSettingContext from '@/contexts/userSettings';
 
 export default class extends Component {
     state = {

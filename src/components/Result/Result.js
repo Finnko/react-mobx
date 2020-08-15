@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import userSettingContext from '../../contexts/userSettings';
+import userSettingContext from '@/contexts/userSettings';
 import { observer } from 'mobx-react';
-import storesContext from '../../contexts/stores';
+import storesContext from '@/contexts/stores';
 
 const Result = ({ products }) => {
 	const { lang } = useContext(userSettingContext);

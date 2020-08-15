@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import Table from 'react-bootstrap/Table';
-import CartItem from '../CartItem';
-import storesContext from '../../contexts/stores';
+import CartItem from '@/components/CartItem';
+import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
 
 const Cart = ({ onConfirm }) => {
