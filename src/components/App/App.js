@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
-import Cart from '../../components/Cart';
-import Order from '../../components/Order';
-import Result from '../../components/Result';
+import React, {Component} from 'react';
+import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
+import { routes, routesMap } from '@/router';
+import { Container, Row, Col } from 'react-bootstrap';
+import userSettingContext from '@/contexts/userSettings';
 import styles from './styles.module.css';
-
-import getProducts from '../../util/productsData';
-import userSettingContext from '../../contexts/userSettings';
+import Header from '@/components/Header';
 
 export default class extends Component {
     state = {
@@ -14,67 +12,65 @@ export default class extends Component {
             lang: 'ru',
             timezone: 'Europe/Moscow',
         },
-        page: 'cart',
-        products: getProducts(),
     }
 
-    setSetting = (key, value) => this.setState({settings: {...this.state.settings, [key]: value}});
-
-    setPage = (page) => this.setState({page});
-    moveToCart = () => this.setPage('cart');
-    moveToOrder = () => this.setPage('order');
-    moveToResult = () => this.setPage('result');
+    handleSetSettings = (key, value) => this.setState({
+        settings: {
+            ...this.state.settings,
+            [key]: value
+        }
+    });
 
     render() {
-        let pageComponent;
-        const {page, settings, products} = this.state;
+        const { settings } = this.state;
 
-        switch (page) {
-            case 'cart':
-                pageComponent = <Cart
-                  products={products}
-                  onChange={this.changeProductCnt}
-                  onRemove={this.removeProduct}
-                  onConfirm={this.moveToOrder}
-                />
-                break;
-            case 'order':
-                pageComponent = <Order
-                  onCancel={this.moveToCart}
-                  onConfirm={this.moveToResult}
-                />
-                break;
-            case 'result':
-                pageComponent = <Result
-                  products={products}
-                />
-                break;
-        }
+        return (
+          <userSettingContext.Provider value={settings}>
+              <BrowserRouter>
+                  <Header onSetSettings={this.handleSetSettings} />
+                  <main className={styles.main}>
+                      <Container>
+                          <Row>
+                              <Col xs={3}>
+                                  <ul className="list-group">
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.products}>Products</NavLink>
+                                      </li>
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.cart}>Cart</NavLink>
+                                      </li>
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.order}>Order</NavLink>
+                                      </li>
+                                      <li className="list-group-item">
+                                          <NavLink activeClassName={styles.selected} to={routesMap.result}>Result</NavLink>
+                                      </li>
+                                  </ul>
+                              </Col>
 
-        return <userSettingContext.Provider value={settings}>
-            <main className={styles.main}>
-                <Button
-                  type="button"
-                  variant="info"
-                  onClick={() => this.setSetting('lang', 'ru')}
-                >
-                    ru
-                </Button>
-                {' '}
-                <Button
-                  type="button"
-                  variant="info"
-                  onClick={() => this.setSetting('lang', 'en')}
-                >
-                    en
-                </Button>
+                              <Col xs={9}>
+                                  <Switch>
+                                      {routes.map(route => (
+                                        <Route
+                                          key={route.path}
+                                          path={route.path}
+                                          component={route.component}
+                                          exact={'exact' in route ? route.exact : true}
+                                        />))}
+                                  </Switch>
+                              </Col>
+                          </Row>
+                          <hr/>
+                      </Container>
+                  </main>
 
-                <hr/>
-                    {pageComponent}
-                <hr/>
-
-                your lang: {settings.lang}
-            </main>
-        </userSettingContext.Provider>
+                  <footer>
+                      <Container>
+                          your lang: {settings.lang}
+                      </Container>
+                  </footer>
+              </BrowserRouter>
+          </userSettingContext.Provider>
+        );
     }
 }

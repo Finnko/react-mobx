@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
-import storesContext from '../../contexts/stores';
+import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
 
 const Order = ({ onCancel, onConfirm }) => {

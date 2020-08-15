@@ -1,13 +1,15 @@
 import React, {useContext} from 'react';
-import Table from 'react-bootstrap/Table';
-import CartItem from '../CartItem';
-import storesContext from '../../contexts/stores';
+import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
+import { routesMap } from '@/router';
+import Table from 'react-bootstrap/Table';
+import CartItem from '@/components/CartItem';
 
 const Cart = ({ onConfirm }) => {
 	const { cartStore } = useContext(storesContext);
 	const {
-		productsData,
+		productsDetailed: productsData,
 		productsCount,
 		cartTotal,
 		changeProductCnt,
@@ -15,11 +17,14 @@ const Cart = ({ onConfirm }) => {
 	} = cartStore;
 
 	const productsItems = productsData.map((product) => {
-		return <CartItem key={product.id}
-			{...product}
-			onChange={changeProductCnt}
-			onRemove={removeProduct}
-		/>
+		return (
+			<CartItem
+				key={product.id}
+				{...product}
+				onChange={changeProductCnt}
+				onRemove={removeProduct}
+			/>
+		);
 	});
 
 	return (
@@ -43,8 +48,8 @@ const Cart = ({ onConfirm }) => {
 				</tbody>
 			</Table>
 			<hr/>
-			<div><strong>InCart: { productsCount }</strong></div>
-			<div><strong>Total: { cartTotal }</strong></div>
+			<div className="mb-2"><strong>InCart: { productsCount }</strong></div>
+			<div className="mb-2"><strong>Total: { cartTotal }</strong></div>
 			<div>
 				<button
 					className="btn btn-success"
