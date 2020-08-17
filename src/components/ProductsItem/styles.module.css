@@ -1,0 +1,13 @@
+.card {
+    width: 18rem;
+}
+
+.cardImgWrap {
+    height: 150px;
+}
+
+.cardImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

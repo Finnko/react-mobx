@@ -11,6 +11,7 @@ const Products = () => {
     const { addToCart, removeFromCart} = cartStore;
 
     const productsCards = items.map((item) => {
+        const inCart = cartStore._inCart(item.id);
         return (
           <Col
             xs={4}
@@ -25,29 +26,33 @@ const Products = () => {
                       </Card.Text>
 
                       <Link
-                        to={'/product/' + item.id}
+                        to={'/products/' + item.id}
                         className={styles.details}
                       >
                           Details
                       </Link>
                       <hr/>
                       <div>
-                          <Button
-                            type="button"
-                            variant="warning"
-                            className="mr-3"
-                            onClick={() => removeFromCart(item.id)}
-                          >
-                              Remove
-                          </Button>
+                          {inCart &&
+                              <Button
+                                type="button"
+                                variant="warning"
+                                className="mr-3"
+                                onClick={() => removeFromCart(item.id)}
+                              >
+                                  Remove
+                              </Button>
+                          }
 
-                          <Button
-                            type="button"
-                            variant="success"
-                            onClick={() => addToCart(item.id)}
-                          >
-                              Add
-                          </Button>
+                          {!inCart &&
+                              <Button
+                                type="button"
+                                variant="success"
+                                onClick={() => addToCart(item.id)}
+                              >
+                                  Add
+                              </Button>
+                          }
                       </div>
                   </Card.Body>
               </Card>

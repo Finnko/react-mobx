@@ -9,11 +9,11 @@ const CartItem = ({
 	price,
 	rest,
 	cnt,
-	onChange,
-	onRemove,
+	changeProductCnt,
+	removeFromCart,
 }) => {
-	const handleInputChange = (current) => onChange(id, current);
-	const handleButtonRemove = () => onRemove(id);
+	const handleInputChange = (current) => changeProductCnt(id, current);
+	const handleButtonRemove = () => removeFromCart(id);
 
 	return (
 		<tr>

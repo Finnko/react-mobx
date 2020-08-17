@@ -10,12 +10,11 @@ const routes = [
         name: 'products',
         path: '/',
         component: ProductsList,
-        exact: true,
     },
      {
-        name: 'products/:id',
-        path: 'products/:id',
-        component: ProductsItem
+        name: 'productsItem',
+        path: '/products/:id',
+        component: ProductsItem,
     },
     {
         name: 'cart',

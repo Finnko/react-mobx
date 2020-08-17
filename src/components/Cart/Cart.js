@@ -3,7 +3,7 @@ import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { routesMap } from '@/router';
-import Table from 'react-bootstrap/Table';
+import { Table, Button } from 'react-bootstrap';
 import CartItem from '@/components/CartItem';
 
 const Cart = ({ onConfirm }) => {
@@ -13,16 +13,17 @@ const Cart = ({ onConfirm }) => {
 		productsCount,
 		cartTotal,
 		changeProductCnt,
-		removeProduct,
+		removeFromCart,
+		cleanCart,
 	} = cartStore;
-
+	console.log(productsData)
 	const productsItems = productsData.map((product) => {
 		return (
 			<CartItem
 				key={product.id}
 				{...product}
-				onChange={changeProductCnt}
-				onRemove={removeProduct}
+				changeProductCnt={changeProductCnt}
+				removeFromCart={removeFromCart}
 			/>
 		);
 	});
@@ -47,7 +48,15 @@ const Cart = ({ onConfirm }) => {
 					{ productsItems }
 				</tbody>
 			</Table>
+			<Button
+				variant="secondary"
+				onClick={cleanCart}
+			>
+				Clean cart
+			</Button>
+
 			<hr/>
+
 			<div className="mb-2"><strong>InCart: { productsCount }</strong></div>
 			<div className="mb-2"><strong>Total: { cartTotal }</strong></div>
 			<div>

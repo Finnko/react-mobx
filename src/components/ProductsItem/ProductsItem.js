@@ -1,18 +1,30 @@
 import React, { useContext } from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
+import { useParams, Redirect } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import storesContext from '@/contexts/stores';
+import {routesMap} from '@/router';
+import styles from './styles.module.css';
 
 const ProductsItem = () => {
     const { productsStore } = useContext(storesContext);
     const { findItem } = productsStore;
     const { id } = useParams();
-    const product = findItem(id);
+    const product = findItem(parseInt(id, 10));
+
+    if (!product) {
+        return <Redirect to={routesMap.products}/>
+    }
 
     return (
-      <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src="https://source.unsplash.com/random/100x180" />
+      <Card className={styles.card}>
+          <div className={styles.cardImgWrap}>
+              <Card.Img
+                className={styles.cardImg}
+                variant="top"
+                src="https://source.unsplash.com/random/200x200"
+              />
+          </div>
           <Card.Body>
               <Card.Title>
                   {product.title}
@@ -20,7 +32,10 @@ const ProductsItem = () => {
               <Card.Text>
                   {product.price}
               </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
+              <Card.Text>
+                  <span>Остаток на складе&nbsp;</span>
+                  {product.rest}
+              </Card.Text>
           </Card.Body>
       </Card>
     );
