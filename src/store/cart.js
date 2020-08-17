@@ -1,8 +1,10 @@
 import {observable, computed, action} from 'mobx';
+import * as cartApi from '@/api/cart';
 import productsStore from './products';
 
 class Cart {
     @observable productsData = [];
+    token = null;
 
     @computed get productsDetailed() {
         return this.productsData.map(product => {
@@ -19,47 +21,64 @@ class Cart {
         return this.productsData.length;
     }
 
+    @action fetchCart(){
+        this.token = localStorage.getItem('CART_TOKEN');
+
+        cartApi.load(this.token).then(({ cart, token, needUpdate }) => {
+            if (needUpdate) {
+                localStorage.setItem('CART_TOKEN', token);
+                this.token = token;
+            } else {
+                this.productsData = cart;
+            }
+        });
+    }
+
     @action addToCart = (id) => {
-        const idx = this._findIndexById(id);
-
-        if (idx !== -1) {
-            if (this.productsData[idx].cnt === this.productsData[idx].rest) return;
-
-            this.productsData[idx].cnt++;
-        } else {
-            const newProduct = productsStore.findItem(id);
-            this.productsData.push(newProduct);
+        if (!this._inCart(id)) {
+            cartApi.add(this.token, id).then(response => {
+                if (response) {
+                    this.productsData.push({ id, cnt: 1 });
+                }
+            });
         }
     }
 
     @action removeFromCart = (id) => {
-        const idx = this._findIndexById(id);
-
-        if (idx !== -1) {
-            if (this.productsData[idx].cnt === 0) return;
-
-            this.productsData[idx].cnt--;
+        if (this._inCart(id)) {
+            cartApi.remove(this.token, id).then(response => {
+                if (response) {
+                    const idx = this._findIndexById(id);
+                    this.productsData.splice(idx, 1 );
+                }
+            });
         }
+    }
+
+    @action cleanCart = () => {
+        cartApi.clean(this.token).then(response => {
+            if (response) {
+                this.productsData = [];
+            }
+        })
     }
 
     @action changeProductCnt = (id, cnt) => {
         const idx = this._findIndexById(id);
 
-        if (idx !== -1) {
-            this.productsData[idx].cnt = cnt;
-        }
-    }
-
-    @action removeProduct = (id) => {
-        const idx = this._findIndexById(id);
-
-        if (idx !== -1) {
-            this.productsData.splice(idx, 1);
-        }
+        cartApi.change(this.token, id, cnt).then(response => {
+            if (response) {
+                this.productsData[idx].cnt = cnt;
+            }
+        })
     }
 
     _findIndexById(id) {
         return this.productsData.findIndex(item => item.id === id);
+    }
+
+    _inCart(id) {
+        return this._findIndexById(id) !== -1;
     }
 }
 

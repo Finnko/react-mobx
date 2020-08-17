@@ -34,7 +34,7 @@ export default class extends Component {
                               <Col xs={3}>
                                   <ul className="list-group">
                                       <li className="list-group-item">
-                                          <NavLink activeClassName={styles.selected} to={routesMap.products}>Products</NavLink>
+                                          <NavLink activeClassName={styles.selected} exact to={routesMap.products}>Products</NavLink>
                                       </li>
                                       <li className="list-group-item">
                                           <NavLink activeClassName={styles.selected} to={routesMap.cart}>Cart</NavLink>

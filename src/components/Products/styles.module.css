@@ -1,6 +1,6 @@
 .details {
     color: currentColor;
-    text-decoration: none;
+    text-decoration: underline;
     transition: color 0.2s;
 }
 

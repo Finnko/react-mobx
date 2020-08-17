@@ -64,6 +64,13 @@ let conf = {
 		hot: true,
 		open: true,
 		port: 1337,
+		proxy: {
+			'/reactcourseapi/**': {
+				target: 'http://faceprog.ru',
+				secure: false,
+				changeOrigin: true
+			}
+		}
 	}
 }
 

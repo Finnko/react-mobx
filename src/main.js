@@ -16,11 +16,15 @@ const stores = {
 	productsStore,
 }
 
-ReactDOM.render(
-	<storesContext.Provider value={stores}>
-		<Container>
-			<App/>
-		</Container>
-	</storesContext.Provider>,
-	document.querySelector('#app')
-);
+cartStore.fetchCart();
+productsStore.fetchProducts().then(() => {
+	ReactDOM.render(
+		<storesContext.Provider value={stores}>
+			<Container>
+				<App/>
+			</Container>
+		</storesContext.Provider>,
+		document.querySelector('#app')
+	);
+});
+
