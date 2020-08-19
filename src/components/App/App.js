@@ -42,9 +42,6 @@ export default class extends Component {
                                       <li className="list-group-item">
                                           <NavLink activeClassName={styles.selected} to={routesMap.order}>Order</NavLink>
                                       </li>
-                                      <li className="list-group-item">
-                                          <NavLink activeClassName={styles.selected} to={routesMap.result}>Result</NavLink>
-                                      </li>
                                   </ul>
                               </Col>
 

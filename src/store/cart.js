@@ -1,14 +1,19 @@
-import {observable, computed, action} from 'mobx';
-import * as cartApi from '@/api/cart';
-import productsStore from './products';
+import {observable, computed, action, runInAction} from 'mobx';
 
 class Cart {
+    constructor(rootStore){
+        this.rootStore = rootStore;
+        this.api = rootStore.api.cart;
+        this.storage = rootStore.storage;
+    }
+
     @observable productsData = [];
+    @observable processId = [];
     token = null;
 
     @computed get productsDetailed() {
         return this.productsData.map(product => {
-            const productInfo = productsStore.findItem(product.id);
+            const productInfo = this.rootStore.productsStore.findItem(product.id);
             return { ...productInfo, cnt: product.cnt };
         });
     }
@@ -22,64 +27,108 @@ class Cart {
     }
 
     @action fetchCart(){
-        this.token = localStorage.getItem('CART_TOKEN');
+        this.token = this.storage.getItem('CART_TOKEN');
 
-        cartApi.load(this.token).then(({ cart, token, needUpdate }) => {
-            if (needUpdate) {
-                localStorage.setItem('CART_TOKEN', token);
-                this.token = token;
-            } else {
-                this.productsData = cart;
-            }
+        this.api.load(this.token).then(({ cart, token, needUpdate }) => {
+            runInAction(() => {
+                if (needUpdate) {
+                    this.storage.setItem('CART_TOKEN', token);
+                    this.token = token;
+                } else {
+                    this.productsData = cart;
+                }
+            });
         });
+
     }
 
     @action addToCart = (id) => {
-        if (!this._inCart(id)) {
-            cartApi.add(this.token, id).then(response => {
-                if (response) {
-                    this.productsData.push({ id, cnt: 1 });
-                }
+        if (!this.inCart(id) && !this.inProcess(id)) {
+            this._startProcess(id);
+
+            this.api.add(this.token, id).then(response => {
+                runInAction(() => {
+                    if (response) {
+                        this.productsData.push({ id, cnt: 1 });
+                    }
+
+                    this._stopProcess(id);
+                });
             });
         }
     }
 
     @action removeFromCart = (id) => {
-        if (this._inCart(id)) {
-            cartApi.remove(this.token, id).then(response => {
-                if (response) {
-                    const idx = this._findIndexById(id);
-                    this.productsData.splice(idx, 1 );
-                }
+        if (this.inCart(id) && !this.inProcess(id)) {
+            this._startProcess(id);
+
+            this.api.remove(this.token, id).then(response => {
+                runInAction(() => {
+                    if (response) {
+                        const idx = this._findIndexById(id);
+                        this.productsData.splice(idx, 1 );
+                    }
+
+                    this._stopProcess(id);
+                });
             });
         }
     }
 
     @action cleanCart = () => {
-        cartApi.clean(this.token).then(response => {
-            if (response) {
-                this.productsData = [];
-            }
-        })
+        this.api.clean(this.token).then(response => {
+            runInAction(() => {
+                if (response) {
+                    this.productsData = [];
+                }
+            });
+        });
     }
 
     @action changeProductCnt = (id, cnt) => {
-        const idx = this._findIndexById(id);
+        if (this.inCart(id) && !this.inProcess(id)) {
+            this._startProcess(id);
+            const idx = this._findIndexById(id);
 
-        cartApi.change(this.token, id, cnt).then(response => {
-            if (response) {
-                this.productsData[idx].cnt = cnt;
-            }
-        })
+            this.api.change(this.token, id, cnt).then(response => {
+                runInAction(() => {
+                    if (response) {
+                        this.productsData[idx].cnt = cnt;
+                    }
+
+                    this._stopProcess(id);
+                });
+            });
+        }
     }
 
-    _findIndexById(id) {
+    inProcess = (id) => {
+        return this._findProcessIndex(id) !== -1;
+    }
+
+    _findIndexById = (id) => {
         return this.productsData.findIndex(item => item.id === id);
     }
 
-    _inCart(id) {
+    inCart = (id) => {
         return this._findIndexById(id) !== -1;
+    }
+
+    _findProcessIndex = (id) => {
+        return this.processId.indexOf(id);
+    }
+
+    _startProcess = (id) => {
+        this.processId.push(id);
+    }
+
+    _stopProcess = (id) => {
+        let idx = this._findProcessIndex(id);
+
+        if(idx !== -1){
+            this.processId.splice(idx, 1);
+        }
     }
 }
 
-export default new Cart();
+export default Cart;

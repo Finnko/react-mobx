@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 let plugins = [
 	new MiniCssExtractPlugin({
 		filename: 'main.css'
-	})
+	}),
 ];
 
 let conf = {

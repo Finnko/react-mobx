@@ -6,20 +6,12 @@ import Container from 'react-bootstrap/Container';
 import storesContext from '@/contexts/stores';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import orderStore from '@/store/order';
-import cartStore from '@/store/cart';
-import productsStore from '@/store/products';
+import store from '@/store';
 
-const stores = {
-	orderStore,
-	cartStore,
-	productsStore,
-}
-
-cartStore.fetchCart();
-productsStore.fetchProducts().then(() => {
+store.cartStore.fetchCart();
+store.productsStore.fetchProducts().then(() => {
 	ReactDOM.render(
-		<storesContext.Provider value={stores}>
+		<storesContext.Provider value={store}>
 			<Container>
 				<App/>
 			</Container>

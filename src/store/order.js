@@ -1,6 +1,10 @@
 import {observable, computed, action} from 'mobx';
 
 class Order {
+    constructor(rootStore){
+        this.rootStore = rootStore;
+    }
+
     @observable userData = {
         name: {
             title: 'Name',
@@ -40,4 +44,4 @@ class Order {
     }
 }
 
-export default new Order();
+export default Order;

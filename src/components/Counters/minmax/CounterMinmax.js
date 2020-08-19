@@ -7,6 +7,7 @@ const Counter = ({
     min,
     max,
     current,
+    inProcess,
     onChange,
 }) => {
     const input = useRef();
@@ -51,7 +52,7 @@ const Counter = ({
           <Button
             variant="warning"
             onClick={decreaseValue}
-            disabled={current <= min}
+            disabled={current <= min || inProcess}
           >
               -
           </Button>
@@ -67,7 +68,7 @@ const Counter = ({
           <Button
             variant="success"
             onClick={increaseValue}
-            disabled={current >= max}
+            disabled={current >= max || inProcess}
           >
               +
           </Button>

@@ -16,12 +16,15 @@ const Cart = ({ onConfirm }) => {
 		removeFromCart,
 		cleanCart,
 	} = cartStore;
-	console.log(productsData)
+
 	const productsItems = productsData.map((product) => {
+		const inProcess = cartStore.inProcess(product.id);
+
 		return (
 			<CartItem
 				key={product.id}
 				{...product}
+				inProcess={inProcess}
 				changeProductCnt={changeProductCnt}
 				removeFromCart={removeFromCart}
 			/>

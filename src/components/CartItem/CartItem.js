@@ -9,6 +9,7 @@ const CartItem = ({
 	price,
 	rest,
 	cnt,
+	inProcess,
 	changeProductCnt,
 	removeFromCart,
 }) => {
@@ -23,6 +24,7 @@ const CartItem = ({
 				<CounterReal
 					max={rest}
 					current={cnt}
+					inProcess={inProcess}
 					onChange={handleInputChange}
 				/>
 			</td>
@@ -31,6 +33,7 @@ const CartItem = ({
 				<Button
 					type="button"
 					variant="danger"
+					disabled={inProcess}
 					onClick={handleButtonRemove}
 				>
 					Remove
