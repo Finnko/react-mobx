@@ -11,7 +11,9 @@ const Products = () => {
     const { addToCart, removeFromCart} = cartStore;
 
     const productsCards = items.map((item) => {
-        const inCart = cartStore._inCart(item.id);
+        const inCart = cartStore.inCart(item.id);
+        const inProcess = cartStore.inProcess(item.id);
+
         return (
           <Col
             xs={4}
@@ -38,6 +40,7 @@ const Products = () => {
                                 type="button"
                                 variant="warning"
                                 className="mr-3"
+                                disabled={inProcess}
                                 onClick={() => removeFromCart(item.id)}
                               >
                                   Remove
@@ -48,6 +51,7 @@ const Products = () => {
                               <Button
                                 type="button"
                                 variant="success"
+                                disabled={inProcess}
                                 onClick={() => addToCart(item.id)}
                               >
                                   Add
