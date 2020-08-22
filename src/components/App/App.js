@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import userSettingContext from '@/contexts/userSettings';
 import styles from './styles.module.css';
 import Header from '@/components/Header';
+import Notifications from '@/components/Notifications';
 
 export default class extends Component {
     state = {
@@ -27,6 +28,7 @@ export default class extends Component {
         return (
           <userSettingContext.Provider value={settings}>
               <BrowserRouter>
+                  <Notifications />
                   <Header onSetSettings={this.handleSetSettings} />
                   <main className={styles.main}>
                       <Container>

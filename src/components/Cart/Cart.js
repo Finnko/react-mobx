@@ -1,8 +1,6 @@
 import React, {useContext} from 'react';
 import storesContext from '@/contexts/stores';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
-import { routesMap } from '@/router';
 import { Table, Button } from 'react-bootstrap';
 import CartItem from '@/components/CartItem';
 

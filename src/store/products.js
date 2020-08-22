@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx';
+import { AppMessages, NotificationTypes } from '../const';
 
 class Products {
     constructor(rootStore){
@@ -17,6 +18,11 @@ class Products {
                 runInAction(() => {
                     this.items = products;
                 })
+            }).catch(() => {
+                this.rootStore.notificationsStore.addNotify(
+                  AppMessages.ERROR_FETCH_DATA,
+                  NotificationTypes.ERROR,
+                )
             });
     }
 }
