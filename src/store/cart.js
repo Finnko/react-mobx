@@ -1,4 +1,5 @@
 import {observable, computed, action, runInAction} from 'mobx';
+import {AppMessages, NotificationTypes} from '../const';
 
 class Cart {
     constructor(rootStore){
@@ -38,6 +39,11 @@ class Cart {
                     this.productsData = cart;
                 }
             });
+        }).catch(() => {
+            this.rootStore.notificationsStore.addNotify(
+              AppMessages.ERROR_FETCH_DATA,
+              NotificationTypes.ERROR,
+            )
         });
 
     }
@@ -52,6 +58,18 @@ class Cart {
                         this.productsData.push({ id, cnt: 1 });
                     }
 
+                    this.rootStore.notificationsStore.addNotify(
+                      AppMessages.SUCCESS_ADD_CART,
+                      NotificationTypes.SUCCESS,
+                    )
+                });
+            }).catch(() => {
+                this.rootStore.notificationsStore.addNotify(
+                  AppMessages.ERROR_ADD_CART,
+                  NotificationTypes.ERROR,
+                )
+            }).finally(() => {
+                runInAction(() => {
                     this._stopProcess(id);
                 });
             });
@@ -69,6 +87,18 @@ class Cart {
                         this.productsData.splice(idx, 1 );
                     }
 
+                    this.rootStore.notificationsStore.addNotify(
+                      AppMessages.SUCCESS_REMOVE_CART,
+                      NotificationTypes.SUCCESS,
+                    )
+                });
+            }).catch(() => {
+                this.rootStore.notificationsStore.addNotify(
+                  AppMessages.ERROR_REMOVE_CART,
+                  NotificationTypes.ERROR,
+                )
+            }).finally(() => {
+                runInAction(() => {
                     this._stopProcess(id);
                 });
             });
@@ -82,6 +112,11 @@ class Cart {
                     this.productsData = [];
                 }
             });
+        }).catch(() => {
+            this.rootStore.notificationsStore.addNotify(
+              AppMessages.ERROR_FETCH_DATA,
+              NotificationTypes.ERROR,
+            )
         });
     }
 
@@ -95,7 +130,14 @@ class Cart {
                     if (response) {
                         this.productsData[idx].cnt = cnt;
                     }
-
+                });
+            }).catch(() => {
+                this.rootStore.notificationsStore.addNotify(
+                  AppMessages.ERROR_CHANGE_COUNT,
+                  NotificationTypes.ERROR,
+                )
+            }).finally(() => {
+                runInAction(() => {
                     this._stopProcess(id);
                 });
             });
